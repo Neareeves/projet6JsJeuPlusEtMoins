@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Jeu JavaScript : le plus ou moins</title>
+
+    <style>
+      
+      html {
+        font-family: 'century gothic';
+        box-sizing: border-box;
+      }
+     body > p {
+     	padding: 30px 0;
+     	text-align: center;
+     	font-size: 35px;
+     	font-weight: 500;
+     	
+     }
+      body {
+      	background-image: url(https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260);
+      	background-position: fixed;
+      	background-repeat: no-repeat;
+      	background-size: cover;
+        bottom: 0;
+        margin: 0 auto;
+        padding-top: 10px;
+
+      }
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+      .soumission {
+      	margin-top: 40px;
+      	padding: 30px;
+      	background-image: url(https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260);
+      	color: #FFF;
+      	border-radius: 20px;
+      	font-family: 'century gothic';
+      	font-size: 20px;
+      	font-weight: 800;
+      }
+      h1 {
+      	text-shadow: 2px 2px 3px;
+      	font-size: 50px;
+      	text-align: center;
+      }
+      .form {
+      	text-align: center;
+      }
+      .resultParas p {
+      	padding: 10px 0;
+     	text-align: center;
+     	font-size: 25px;
+     	font-weight: 500;
+      }
+      label {
+      	font-size: 20px;
+
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Le jeu du plus ou moins</h1>
+
+    <p>L'ordinateur a choisi un nombre compris entre 1 et 100. Vous avez 10 chances pour le deviner!</p>
+
+    <div class="form">
+      <label for="guessField">Entrez votre nombre: </label><input type="text" id="guessField" class="champDEssai">
+      <br><br>
+      <input type="submit" value="Je tente!" class="soumission">
+    </div>
+
+    <div class="resultParas">
+      <p class="essais"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHigh"></p>
+    </div>
+
+    <script>
+      let randomNumber = Math.floor(Math.random() * 100) +1;
+//pourquoi +1
+
+
+let essais = document.querySelector('.essais');
+let lastResult = document.querySelector('.lastResult');
+let lowOrHigh = document.querySelector('.lowOrHigh');
+
+let soumission = document.querySelector('.soumission');
+let champDEssai = document.querySelector('.champDEssai');
+
+let nombreDeTentatives = 1;
+let resetButton;
+
+function validateTry(){
+  let tentatives = Number(guessField.value);
+  if (nombreDeTentatives === 1) {
+    essais.textContent ='Vous avez déjà essayé : ';
+    }
+  essais.textContent += tentatives + ' ';
+ //comment faire pour qu'elles s'accumulent?
+  if (tentatives === randomNumber) {
+    lastResult.textContent ='Bien joué, vous avez trouvé!';
+    lastResult.style.backgroundColor ='green';
+    lastResult.style.borderRadius = '20px';
+    lowOrHigh.textContent ='';
+    
+    setGameOver();
+  } else if (nombreDeTentatives === 10) {
+    lastResult.textContent = 'Hum... perdu! Ça ira mieux la prochaine fois!';
+    lastResult.style.backgroundColor = 'rgba(255,154,89,0.4)';
+    lastResult.style.borderRadius = '20px';
+    lastResult.style.color = 'red';
+    setGameOver();
+  } else {
+    lastResult.textContent ='Try again, buddy!';
+    lastResult.style.backgroundColor = 'red';
+    lastResult.style.borderRadius = '20px';
+    
+    if (tentatives < randomNumber) {
+      lowOrHigh.textContent = '(Le nombre mystère est plus grand.)';
+    } else if (tentatives > randomNumber) {
+      lowOrHigh.textContent = '(Le nombre mystère est plus petit.)';
+    }
+}
+
+  nombreDeTentatives++; //incrémente les tentatives, mais comment?
+ champDEssai.value = ''; //réinitialise champ d'essai
+ champDEssai.focus(); //réinitialise mais je ne sais pas cmt
+}
+
+
+soumission.addEventListener('click', validateTry);
+
+//un bouton pour réinitialiser le jeu?
+    </script>
+  </body>
+</html>
